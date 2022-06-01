@@ -8,7 +8,24 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-#include "framework.h"
+
+#include <wil\cppwinrt.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/base.h>
+
+#include <wil\resource.h>
+#include <inspectable.h>
+
+#include <functional>
+
+#include <intsafe.h>
+#include <SearchAPI.h>
+#include <propsys.h>
+#include "PropertyHelpers.h"
+#include "QueryHelpers.h"
+#include "SearchHelpers.h"
+
 #include "CommandLineHelpers.h"
 
 #endif //PCH_H

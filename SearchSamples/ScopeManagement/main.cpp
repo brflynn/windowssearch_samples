@@ -20,7 +20,7 @@ int wmain(int argc, wchar_t* argv[])
     try
     {
         winrt::com_ptr<ICommandLineParser> parser;
-        CreateCommandLineParser(c_commandInfo, ARRAYSIZE(c_commandInfo), argc, argv, parser.put());
+        CreateCommandLineParser(c_commandInfo, ARRAYSIZE(c_commandInfo), argc, argv, L"ScopeManagementSample", parser.put());
 
         THROW_IF_FAILED(parser->ParseCommandLine());
     }
