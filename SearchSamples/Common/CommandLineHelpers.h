@@ -19,5 +19,5 @@ struct CommandLineArgInfo
     const wchar_t* helpText; // The help text associated with the command
 };
 
-void CreateCommandLineParser(_In_reads_(numArgInfo) const CommandLineArgInfo* info, uint32_t numArgInfo, int argc, _In_ wchar_t* argv[], _COM_Outptr_ ICommandLineParser** parser);
+void CreateCommandLineParser(_In_reads_(numArgInfo) const CommandLineArgInfo* info, uint32_t numArgInfo, int argc, _In_ wchar_t* argv[], _In_ PCWSTR processorName, _COM_Outptr_ ICommandLineParser** parser);
 void CreateCommandLineProcessor(_COM_Outptr_ ICommandLineProcessor** processor); // Just define the method, the applications will need to implement it if they choose to use a processor (will get a linker error)

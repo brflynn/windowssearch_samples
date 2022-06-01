@@ -1,7 +1,2 @@
-﻿#pragma once
-
-#include <wil\cppwinrt.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/base.h>
-#include "CommandLineHelpers.h"
+#pragma once
+#include "..\Common\pch.h"

@@ -4,10 +4,6 @@ struct CommandLineProcessor : winrt::implements<CommandLineProcessor, ICommandLi
 {
     CommandLineProcessor()
     {
-        // cache what we will need later...
-         // Get the SM, CM, and CSM
-        winrt::com_ptr<ISearchManager> searchManager;
-        THROW_IF_FAILED(CoCreateInstance(CLSID_CSearchManager, nullptr, CLSCTX_LOCAL_SERVER, IID_PPV_ARGS(m_searchManager.put())));
     }
     ~CommandLineProcessor() { }
 
@@ -19,7 +15,7 @@ struct CommandLineProcessor : winrt::implements<CommandLineProcessor, ICommandLi
         {
             // Catalog reset, which catalog?
             winrt::com_ptr<ISearchCatalogManager> catalogManager;
-            RETURN_IF_FAILED(m_searchManager->GetCatalog(commandLine[2].c_str(), catalogManager.put()));
+            RETURN_IF_FAILED(GetCatalogManagerHelper(commandLine[2].c_str(), catalogManager.put()));
 
             wprintf(L"Resetting the %s catalog.", commandLine[2].c_str());
             RETURN_IF_FAILED(catalogManager->Reset());

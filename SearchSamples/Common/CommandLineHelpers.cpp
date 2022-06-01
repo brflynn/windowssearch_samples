@@ -3,7 +3,7 @@
 
 struct CommandLineParser : winrt::implements<CommandLineParser, ICommandLineParser>
 {
-    CommandLineParser(_In_reads_(numAppArgInfo) const CommandLineArgInfo* appArgInfo, uint32_t numAppArgInfo, int argc, _In_ wchar_t* argv[]) 
+    CommandLineParser(_In_reads_(numAppArgInfo) const CommandLineArgInfo* appArgInfo, uint32_t numAppArgInfo, int argc, _In_ wchar_t* argv[], _In_ PCWSTR processorName) 
         : m_appArgInfo(appArgInfo), m_numAppArgInfo(numAppArgInfo), m_numCommandArgs(argc)
     {
         // stash the command line
@@ -11,6 +11,8 @@ struct CommandLineParser : winrt::implements<CommandLineParser, ICommandLinePars
         {
             m_commandArguments.push_back(std::wstring(argv[i]));
         }
+
+        m_processorName = processorName;
 
         // Need at least 1 command
         if (m_commandArguments.size() == 0)
@@ -61,7 +63,12 @@ struct CommandLineParser : winrt::implements<CommandLineParser, ICommandLinePars
 
     void PrintHelp()
     {
-        wprintf(L"Help for ");
+        wprintf(L"Help for %ws", m_processorName.c_str());
+
+        for (uint32_t i = 0; i < m_numAppArgInfo; ++i)
+        {
+            wprintf(m_appArgInfo[i].helpText);
+        }
     }
 
 protected:
@@ -71,10 +78,11 @@ private:
     uint32_t m_numCommandArgs{};
     const CommandLineArgInfo* m_appArgInfo{}; // all the sample apps will be using this format for what are supported args..we do not own this (it lives on the wmain stack)
     uint32_t m_numAppArgInfo{};
+    std::wstring m_processorName;
 };
 
-void CreateCommandLineParser(_In_reads_(numArgInfo) const CommandLineArgInfo* info, uint32_t numArgInfo, int argc, _In_ wchar_t* argv[], _COM_Outptr_ ICommandLineParser** parser)
+void CreateCommandLineParser(_In_reads_(numArgInfo) const CommandLineArgInfo* info, uint32_t numArgInfo, int argc, _In_ wchar_t* argv[], _In_ PCWSTR processorName, _COM_Outptr_ ICommandLineParser** parser)
 {
-    winrt::com_ptr<ICommandLineParser> parserObj{ winrt::make<CommandLineParser>(info, numArgInfo, argc, argv).as<ICommandLineParser>() };
+    winrt::com_ptr<ICommandLineParser> parserObj{ winrt::make<CommandLineParser>(info, numArgInfo, argc, argv, processorName).as<ICommandLineParser>() };
     parserObj.copy_to(parser);
 }
